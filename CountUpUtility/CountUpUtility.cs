@@ -28,8 +28,29 @@ namespace net.tlmage.clearmeasure.exercise
         /// <param name="upperBound">Stop counting at this integer</param>
         public static void CountUp(int upperBound)
         {
-            String result = CountUp(1,upperBound);
-            System.Console.Write("{0}", result);
+            CountUp(1,upperBound,Console.Out);
+        }
+
+        /// <summary>
+        /// Print all the integers between 1 and and upperBound (inclusive).
+        /// Except, print "Fizz" when the integer is evenly divisible by 3,
+        /// print "Buzz" when the integer is evenly divisible by 5;
+        /// print "FizzBUzz" when the integer is evenly divisible by both
+        /// Return the result as a String
+        /// <b>This method is deprecated, because it is not memory-neutral.
+        /// It is left here for backwards-compatibility only.</b>
+        /// </summary>
+        /// <param name="lowerBound">Start counting at this integer</param>
+        /// <param name="upperBound">Stop counting at this integer</param>
+        /// <returns>The String of the numbers/Strings, one per line</returns>
+        [Obsolete("This method is deprecated, because it is not memory-neutral")]
+        public static String CountUp_deprecated(int upperBound)
+        {
+            StringWriter stringWriter = new StringWriter();
+            CountUp(1, upperBound, stringWriter);
+
+            String result = stringWriter.ToString();
+            return result;
         }
 
         /// <summary>
@@ -42,13 +63,9 @@ namespace net.tlmage.clearmeasure.exercise
         /// <param name="lowerBound">Start counting at this integer</param>
         /// <param name="upperBound">Stop counting at this integer</param>
         /// <returns>The String of the numbers/Strings, one per line</returns>
-        public static String CountUp(int lowerBound, int upperBound)
+        public static void CountUp(int lowerBound, int upperBound)
         {
-            StringWriter stringWriter = new StringWriter();
-            CountUp(lowerBound, upperBound, stringWriter);
-
-            String result = stringWriter.ToString();
-            return result;
+            CountUp(lowerBound, upperBound, Console.Out);
         }
 
         /// <summary>
