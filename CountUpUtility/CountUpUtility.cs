@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace net.tlmage.clearmeasure.exercise
 {
@@ -51,7 +49,7 @@ namespace net.tlmage.clearmeasure.exercise
         public static void CountUp(int lowerBound, int upperBound, TextWriter textWriter)
         {
             TextWriterCallBack textWriterCallBack = new TextWriterCallBack(textWriter);
-            CountUp(lowerBound, upperBound, textWriterCallBack.CallBack);
+            CountUp(lowerBound, upperBound, textWriterCallBack);
         }
 
         // Print all the integers between a lowerBound and and upperBound (inclusive).
@@ -59,7 +57,7 @@ namespace net.tlmage.clearmeasure.exercise
         // print "Buzz" when the integer is evenly divisible by 5;
         // print "FizzBUzz" when the integer is evenly divisible by both
         // Return the results, one number/string at a time, through a generic callBack method
-        public static void CountUp(int lowerBound, int upperBound, Action<String> callBack)
+        public static void CountUp(int lowerBound, int upperBound, ICallBack callBack)
         {
             List<KeyValuePair<int, String>> patternList = new List<KeyValuePair<int, string>>()
             {
@@ -77,7 +75,7 @@ namespace net.tlmage.clearmeasure.exercise
         // replace those values with a Value associated with that particular Key.
         // If more than one happens to match, then append each Value, in the order it appears in the List.
         // Return the results, one number/string at a time, through a generic callBack method
-        public static void CountUp(int lowerBound, int upperBound, Action<String> callBack,
+        public static void CountUp(int lowerBound, int upperBound, ICallBack callBack,
             List<KeyValuePair<int, String>> patternList)
         {
             for (int i = lowerBound; i <= upperBound; i++)
@@ -105,17 +103,21 @@ namespace net.tlmage.clearmeasure.exercise
                     result = String.Format("{0}", i);
                 
                 // Send the result back to the caller
-                callBack(result);
+                callBack.CallBack(result);
             }
 
         }
 
-        #endregion
-        #region internal
+        // Receive each number/string through the CallBack method,
+        // and store them in the user-supplied TextWriter
+        public interface ICallBack
+        {
+            void CallBack(String message); // The number or String will be passed in here
+        }
 
         // Receive each number/string through the CallBack method,
         // and store them in the user-supplied TextWriter
-        internal class TextWriterCallBack
+        public class TextWriterCallBack : ICallBack
         {
             private TextWriter _textWriter;
 
