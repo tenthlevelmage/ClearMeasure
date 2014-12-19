@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace net.tlmage.clearmeasure.exercise
 {
@@ -58,20 +61,53 @@ namespace net.tlmage.clearmeasure.exercise
         // Return the results, one number/string at a time, through a generic callBack method
         public static void CountUp(int lowerBound, int upperBound, Action<String> callBack)
         {
+            List<KeyValuePair<int, String>> patternList = new List<KeyValuePair<int, string>>()
+            {
+                //new KeyValuePair<int, String>(0,"Zero"),
+                //new KeyValuePair<int, String>(-10,"Negative"),
+                new KeyValuePair<int, String>(3,"Fizz"),
+                new KeyValuePair<int, String>(5,"Buzz"),
+            };
+
+            CountUp(lowerBound, upperBound, callBack, patternList);
+        }
+
+        // Print all the integers between a lowerBound and and upperBound (inclusive).
+        // Except, filter out certain integer values, if they are divisible by any of a List of integer Keys,
+        // replace those values with a Value associated with that particular Key.
+        // If more than one happens to match, then append each Value, in the order it appears in the List.
+        // Return the results, one number/string at a time, through a generic callBack method
+        public static void CountUp(int lowerBound, int upperBound, Action<String> callBack,
+            List<KeyValuePair<int, String>> patternList)
+        {
             for (int i = lowerBound; i <= upperBound; i++)
             {
-                bool isDivisibleBy3 = i % 3 == 0;
-                bool isDivisibleBy5 = i % 5 == 0;
+                String result = "";
+                bool matched = false;
 
-                if (isDivisibleBy3 && isDivisibleBy5)
-                    callBack("FizzBuzz");
-                else if (isDivisibleBy3)
-                    callBack("Fizz");
-                else if (isDivisibleBy5)
-                    callBack("Buzz");
-                else
-                    callBack(String.Format("{0}", i));
+                foreach (KeyValuePair<int, String> pair in patternList)
+                {
+                    // We'll never be evenly divisible by zero
+                    if (pair.Key == 0)
+                        continue;
+
+                    // Are we divisible by this Key?
+                    if (i%pair.Key == 0)
+                    {
+                        // Append the Value associated with this Key
+                        result += pair.Value;
+                        matched = true;
+                    }
+                }
+
+                // Did we match anything?  If not, return the integer
+                if (!matched)
+                    result = String.Format("{0}", i);
+                
+                // Send the result back to the caller
+                callBack(result);
             }
+
         }
 
         #endregion
