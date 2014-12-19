@@ -40,7 +40,6 @@ namespace net.tlmage.clearmeasure.exercise
         /// <b>This method is deprecated, because it is not memory-neutral.
         /// It is left here for backwards-compatibility only.</b>
         /// </summary>
-        /// <param name="lowerBound">Start counting at this integer</param>
         /// <param name="upperBound">Stop counting at this integer</param>
         /// <returns>The String of the numbers/Strings, one per line</returns>
         [Obsolete("This method is deprecated, because it is not memory-neutral")]
