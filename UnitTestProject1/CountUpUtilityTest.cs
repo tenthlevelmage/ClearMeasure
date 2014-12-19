@@ -8,7 +8,9 @@ namespace net.tlmage.clearmeasure.exercise
     [TestClass]
     public class CountUpUtilityTest
     {
-        // This one test exercises all of the functionality of the CountUpUtility.  
+        /// <summary>
+        /// This one test exercises all of the functionality of the CountUpUtility.
+        /// </summary>  
         [TestMethod]
         public void CountUpTest1()
         {
@@ -23,20 +25,10 @@ namespace net.tlmage.clearmeasure.exercise
                 new KeyValuePair<int, String>(5,"Buzz"),
             };
 
-            CountUpUtility.CountUp(-20, +20, textWriterCallBack, patternList);
+            CountUpUtility.CountUp(-10, +10, textWriterCallBack, patternList);
             String result = stringWriter.ToString();
 
             string expectedResult = @"NegativeBuzz
--19
-Fizz
--17
--16
-FizzBuzz
--14
--13
-Fizz
--11
-NegativeBuzz
 Fizz
 -8
 -7
@@ -57,16 +49,35 @@ Fizz
 8
 Fizz
 NegativeBuzz
-11
+";
+            Assert.AreEqual(result, expectedResult);
+        }
+
+        /// <summary>
+        /// This test exercises all of the interfaces of the CountUpUtility.  
+        /// </summary>
+        [TestMethod]
+        public void CountUpTest2()
+        {
+            StringWriter stringWriter = new StringWriter();
+            TextWriter textWriter = Console.Out;
+            Console.SetOut(stringWriter);
+
+            CountUpUtility.CountUp(10);
+
+            Console.SetOut(textWriter);
+            String result = stringWriter.ToString();
+
+            string expectedResult = @"1
+2
 Fizz
-13
-14
-FizzBuzz
-16
-17
+4
+Buzz
 Fizz
-19
-NegativeBuzz
+7
+8
+Fizz
+Buzz
 ";
             Assert.AreEqual(result,expectedResult);
         }
